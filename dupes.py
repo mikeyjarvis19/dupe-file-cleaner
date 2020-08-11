@@ -1,35 +1,32 @@
 import pathlib
-import os
+import re
 
-
-starting_directory = "C:\\Users\Mike\Desktop\\testfolder"
-starting_directory = pathlib.Path(starting_directory)
+starting_directory = ""
+starting_path = pathlib.Path(starting_directory)
+files_found = []
 paths_to_clean = []
-files = []
+regex_pattern = r".+\(\d\)"
+regex = re.compile(regex_pattern)
 
-def search_dir(item):
-    if item.is_dir():
-        print(f"Found new dir: {item}")
-        paths_to_clean.append(item)
-    if item.is_file():
-        print(f"Found new file: {item}")
-        files.append(item)
+def bytes_to_mb(bytes):
+    return bytes * 0.000001
 
-def check_item(item):
-    if item not in paths_to_clean and item not in files:
-        search_dir(item)
+def is_dupe_filename(filename):
+    result = regex.match(filename)
+    return result is not None
 
-things = starting_directory.iterdir()
-for thing in things:
-    check_item(thing)
+extensions = ["jpg", "png"]
+for extension in extensions:
+    for path in starting_path.rglob(f'*.{extension}'):
+        files_found.append(path)
 
-for item in paths_to_clean:
-    for thing in things:
-        check_item(thing)
-    if item.is_dir() and item != starting_directory and item not in paths_to_clean:
-        print(f"Found new dir: {item}")
-        paths_to_clean.append(item)
-    if item.is_file():
-        files.append(item)
+total_filezise = 0
+for path in files_found:
+    if is_dupe_filename(str(path)):
+        filesize_bytes = path.stat().st_size
+        filesize_mb = bytes_to_mb(filesize_bytes)
+        total_filezise += filesize_mb
+        paths_to_clean.append(path)
+        print(path)
 
-print("test")
+print(f"Total filesize: {total_filezise}MB")
