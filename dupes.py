@@ -48,7 +48,7 @@ def clean_dupe_files(files, starting_directory):
     dupe_dir.mkdir(parents=True, exist_ok=True)
     for file in files:
         print_and_log(f'Moving file "{file}" to "{dupe_dir / file.name}"')
-        shutil.copy(file, dupe_dir)
+        shutil.move(str(file), dupe_dir)
 
 def look_for_dupes(starting_directory, clean_dupes=False):
     starting_path = pathlib.Path(starting_directory)
