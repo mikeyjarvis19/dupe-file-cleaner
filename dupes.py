@@ -21,20 +21,27 @@ def print_and_log(message):
     logging.info(message)
 
 def can_find_original_file(dupe_path):
+    """
+    Searches for original filename that corresponds to the potential duplicate.
+
+    :param dupe_path: Path of potential duplicate file.
+    :type dupe_path: str
+    :return: True if original file is found, else False.
+    :rtype: bool
+    """
     print_and_log(f'Potential duplicate: "{dupe_path}"')
-    original_filename = str(dupe_path)[:-8] + dupe_path.suffix
-    print_and_log(f'Looking for original file at: "{original_filename}"')
-    if pathlib.Path(original_filename).exists():
-        print_and_log(f'Found original file: "{original_filename}"')
-        return True
-    else:
-        original_filename = str(dupe_path)[:-7] + dupe_path.suffix
-        print_and_log(f'Looking for original file at: "{original_filename}"')
-        if pathlib.Path(original_filename).exists():
-            print_and_log(f'Found original file: "{original_filename}"')
+    possible_original_filenames = [
+        str(dupe_path)[:-8] + dupe_path.suffix,
+        str(dupe_path)[:-7] + dupe_path.suffix
+        ]
+    for filename in possible_original_filenames:
+        print_and_log(f'Looking for original file at: "{filename}"')
+        if pathlib.Path(filename).exists():
+            print_and_log(f'Found original file: "{filename}"')
             return True
-        print_and_log(f'ORIGINAL FILE NOT FOUND: "{original_filename}"')
-        return False
+        print_and_log(f'Original file not found: "{filename}"')
+    print_and_log(f'Could not find original file for suspected duplicate: "{dupe_path}"')
+    return False
 
 def clean_dupe_files(files, starting_directory):
     dupe_dir = starting_directory / "DUPES"
@@ -67,5 +74,4 @@ def look_for_dupes(starting_directory, clean_dupes=False):
 
 if __name__ == '__main__':
     # Example command: `python dupes.py --starting_directory "D:\Photos backup" --clean_dupes`
-    look_for_dupes("D:\Photos backup", False)
-    # fire.Fire(look_for_dupes)
+    fire.Fire(look_for_dupes)
