@@ -22,13 +22,13 @@ def print_and_log(message):
 
 def can_find_original_file(dupe_path):
     print_and_log(f'Potential duplicate: "{dupe_path}"')
-    original_filename = dupe_path._str[:-8] + dupe_path.suffix
+    original_filename = str(dupe_path)[:-8] + dupe_path.suffix
     print_and_log(f'Looking for original file at: "{original_filename}"')
     if pathlib.Path(original_filename).exists():
         print_and_log(f'Found original file: "{original_filename}"')
         return True
     else:
-        original_filename = dupe_path._str[:-7] + dupe_path.suffix
+        original_filename = str(dupe_path)[:-7] + dupe_path.suffix
         print_and_log(f'Looking for original file at: "{original_filename}"')
         if pathlib.Path(original_filename).exists():
             print_and_log(f'Found original file: "{original_filename}"')
@@ -67,4 +67,5 @@ def look_for_dupes(starting_directory, clean_dupes=False):
 
 if __name__ == '__main__':
     # Example command: `python dupes.py --starting_directory "D:\Photos backup" --clean_dupes`
-    fire.Fire(look_for_dupes)
+    look_for_dupes("D:\Photos backup", False)
+    # fire.Fire(look_for_dupes)
