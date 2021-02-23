@@ -2,7 +2,7 @@
 
 This is a simple Python script that looks for files that are duplicates, and moves them into a folder where they can be deleted if desired. The script is looking specifically for `.jpg.` and `.png` files, but could be modified to look for other file types by altering `extensions` in the `look_for_dupes` function.
 
-**WARNING: If you're not familiar with running scripts to deal with files and/or you have no idea how this script works, don't use it! I will not be responsible for you messing up your files...**
+**WARNING: If you're not familiar with running scripts to deal with files and/or you have no idea how this script works, don't use it! I will not be responsible for you messing up your files. I also strongly recommend you backup your files before you run the cleanup script on them.**
 
 The script will search for files matching the regex pattern `.+\(\d\)`. Some example filenames that would be picked up:
 * `beach_photo(1).jpg`
