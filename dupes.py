@@ -54,7 +54,7 @@ def look_for_dupes(starting_directory, clean_dupes=False):
     starting_path = pathlib.Path(starting_directory)
     total_filezise = 0
     duplicate_files = 0
-    extensions = ["jpg", "png"]
+    extensions = ["jpg", "png", "mp4"]
     paths_to_clean = []
     for extension in extensions:
         for path in starting_path.rglob(f'*.{extension}'):
